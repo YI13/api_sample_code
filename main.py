@@ -1,16 +1,19 @@
 import os
+
 from fastapi import FastAPI
+
 from google.cloud import storage
 from google.cloud import vision
-from sql import insert_data
+from models import Parking
+from orm import query_all_parking, insert_parking
 
 app = FastAPI()
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/your/path/file.json"
-project_id = "your-project-123456789"
+project_id = "your-project-id"
 storage_client = storage.Client()
-bucket_name = "parking_image"
+bucket_name = "your_bucket_name"
 
 @app.get("/")
 def hellp_world():
@@ -26,7 +29,7 @@ def list_blobs_by_bucket(bucket):
 def download_blob_from_bucket(bucket, blob):
     bucket = storage_client.get_bucket(bucket)
     blob = bucket.blob(blob)
-    blob.download_to_filename(f"/your_path/{blob}")
+    blob.download_to_filename(f"/your/download/path/{blob}")
     return {"download": "success"}
 
 @app.get("/vision/{bucket}/{file}")
@@ -39,7 +42,16 @@ def get_vision(bucket: str, file: str):
     r = response.text_annotations[0].description
     return {"vision_result": r}
 
-# test
-@app.post("/insert_db")
-def set_db():
-    insert_data("car1", "test")
+@app.get("/parking")
+def query_parking():
+    return query_all_parking()
+
+@app.post("/parking")
+def create_parking(parking_info: Parking):
+    insert_parking(
+        parking_info.floor,
+        parking_info.zone,
+        parking_info.parking_number,
+        parking_info.license_plate
+    )
+    return {"result": "success"}
