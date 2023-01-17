@@ -10,10 +10,10 @@ from orm import query_all_parking, insert_parking
 app = FastAPI()
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/your/path/file.json"
-project_id = "your-project-id"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/ruanyizhang/my-project-1513995647958-7a55ee90a31b.json"
+project_id = "my-project-1513995647958"
 storage_client = storage.Client()
-bucket_name = "your_bucket_name"
+bucket_name = "parking_image"
 
 @app.get("/")
 def hellp_world():
@@ -55,3 +55,6 @@ def create_parking(parking_info: Parking):
         parking_info.license_plate
     )
     return {"result": "success"}
+
+# run server
+# uvicorn main:app --reload --host 0.0.0.0 --port 8000
