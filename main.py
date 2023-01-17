@@ -10,10 +10,10 @@ from orm import query_all_parking, insert_parking
 app = FastAPI()
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/ruanyizhang/my-project-1513995647958-7a55ee90a31b.json"
-project_id = "my-project-1513995647958"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/your/path/file.json"
+project_id = "your-project-id"
 storage_client = storage.Client()
-bucket_name = "parking_image"
+bucket_name = "your_bucket_name"
 
 @app.get("/")
 def hellp_world():
