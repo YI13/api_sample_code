@@ -1,1 +1,1 @@
-# api_sample_code
+# python_gcp_sample_code
