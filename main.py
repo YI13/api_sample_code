@@ -11,9 +11,7 @@ app = FastAPI()
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/your/path/file.json"
-project_id = "your-project-id"
 storage_client = storage.Client()
-bucket_name = "your_bucket_name"
 
 @app.get("/")
 def hellp_world():
@@ -32,9 +30,9 @@ def download_blob_from_bucket(bucket, blob):
     blob.download_to_filename(f"/your/download/path/{blob}")
     return {"download": "success"}
 
-@app.get("/vision/{bucket}/{file}")
-def get_vision(bucket: str, file: str):
-    image_uri = f"gs://{bucket}/{file}"
+@app.get("/vision/{bucket}/{folder}/{file}")
+def get_vision(bucket: str, folder: str, file: str):
+    image_uri = f"gs://{bucket}/{folder}/{file}"
     client = vision.ImageAnnotatorClient()
     image = vision.Image()
     image.source.image_uri = image_uri
